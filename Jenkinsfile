@@ -16,7 +16,7 @@ pipeline {
         // Checkout To The Service Branch
         stage('Checkout To Mcroservice Branch'){
             steps{
-                git branch: 'app-shipping-service', url: 'https://github.com/awanmbandi/realworld-microservice-project.git'
+                git branch: 'app-shipping-service', url: 'https://github.com/Temitopeoguns/realworld-microservice-project.git'
             }
         }
         // SonarQube SAST Code Analysis
@@ -69,35 +69,35 @@ pipeline {
             }
         }
         // // Deploy to The Staging/Test Environment
-        // stage('Deploy Microservice To The Stage/Test Env'){
-        //     steps{
-        //         script{
-        //             withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'Kubernetes-Credential', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-        //                sh 'kubectl apply -f deploy-envs/test-env/test-namespace.yaml'
-        //                sh 'kubectl apply -f deploy-envs/test-env/deployment.yaml'
-        //                sh 'kubectl apply -f deploy-envs/test-env/service.yaml'  //ClusterIP Service
-        //            }
-        //         }
-        //     }
-        // }
+         stage('Deploy Microservice To The Stage/Test Env'){
+             steps{
+                 script{
+                     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'Kubernetes-Credential', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                        sh 'kubectl apply -f deploy-envs/test-env/test-namespace.yaml'
+                        sh 'kubectl apply -f deploy-envs/test-env/deployment.yaml'
+                        sh 'kubectl apply -f deploy-envs/test-env/service.yaml'  //ClusterIP Service
+                    }
+                 }
+             }
+         }
         // // Production Deployment Approval
-        // stage('Approve Prod Deployment') {
-        //     steps {
-        //             input('Do you want to proceed?')
-        //     }
-        // }
+         stage('Approve Prod Deployment') {
+             steps {
+                     input('Do you want to proceed?')
+             }
+         }
         // // // Deploy to The Production Environment
-        // stage('Deploy Microservice To The Prod Env'){
-        //     steps{
-        //         script{
-        //             withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'Kubernetes-Credential', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
-        //                sh 'kubectl apply -f deploy-envs/prod-env/prod-namespace.yaml'
-        //                sh 'kubectl apply -f deploy-envs/prod-env/deployment.yaml'
-        //                sh 'kubectl apply -f deploy-envs/prod-env/service.yaml'  //ClusterIP Service
-        //             }
-        //         }
-        //     }
-        // }
+         stage('Deploy Microservice To The Prod Env'){
+             steps{
+                 script{
+                     withKubeConfig(caCertificate: '', clusterName: '', contextName: '', credentialsId: 'Kubernetes-Credential', namespace: '', restrictKubeConfigAccess: false, serverUrl: '') {
+                        sh 'kubectl apply -f deploy-envs/prod-env/prod-namespace.yaml'
+                        sh 'kubectl apply -f deploy-envs/prod-env/deployment.yaml'
+                        sh 'kubectl apply -f deploy-envs/prod-env/service.yaml'  //ClusterIP Service
+                     }
+                 }
+             }
+         }
     }
     post {
     always {
